@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ryu-deployment
+  labels:
+    app: ryu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ryu
+  template:
+    metadata:
+      labels:
+        app: ryu
+    spec:
+      containers:
+      - name: ryu
+        image: assiapfe2022/ryu-ns-ids:v1
+        command: ["/bin/sh","-c"]
+        args: ["ryu-manager --observe-links ~/flowmanager/flowmanager.py  ./slicing_application_ryu_controller_with_snort.py "]
+        resources:
+          limits:
+            cpu: 300m
+          requests:
+            cpu: 200m
